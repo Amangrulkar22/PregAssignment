@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59B20218290A55E8D9B639FB /* Pods_PregAssignment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AE2C180D5442AF1C3C693F /* Pods_PregAssignment.framework */; };
 		FC3B59E02053B6BA00EFF2C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3B59DF2053B6BA00EFF2C2 /* AppDelegate.swift */; };
 		FC3B59E52053B6BA00EFF2C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC3B59E32053B6BA00EFF2C2 /* Main.storyboard */; };
 		FC3B59E82053B6BA00EFF2C2 /* PregAssignment.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC3B59E62053B6BA00EFF2C2 /* PregAssignment.xcdatamodeld */; };
@@ -15,9 +16,15 @@
 		FC3B59F82053B8DF00EFF2C2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3B59F72053B8DF00EFF2C2 /* HomeViewController.swift */; };
 		FC3B59FA2053B8FB00EFF2C2 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3B59F92053B8FB00EFF2C2 /* BookmarkViewController.swift */; };
 		FC3B59FC2053BBBD00EFF2C2 /* TweetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3B59FB2053BBBD00EFF2C2 /* TweetModel.swift */; };
+		FC3B5A052053E7BC00EFF2C2 /* SingletonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3B5A042053E7BC00EFF2C2 /* SingletonClass.swift */; };
+		FC3B5A072053E80500EFF2C2 /* TweetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3B5A062053E80500EFF2C2 /* TweetViewCell.swift */; };
+		FC3B5A092053EFC400EFF2C2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3B5A082053EFC400EFF2C2 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6416211DBFE52D3C71B8F120 /* Pods-PregAssignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PregAssignment.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PregAssignment/Pods-PregAssignment.debug.xcconfig"; sourceTree = "<group>"; };
+		7D1094FEB90DA9BD11DE2242 /* Pods-PregAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PregAssignment.release.xcconfig"; path = "Pods/Target Support Files/Pods-PregAssignment/Pods-PregAssignment.release.xcconfig"; sourceTree = "<group>"; };
+		B9AE2C180D5442AF1C3C693F /* Pods_PregAssignment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PregAssignment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC3B59DC2053B6BA00EFF2C2 /* PregAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PregAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC3B59DF2053B6BA00EFF2C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC3B59E42053B6BA00EFF2C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -28,6 +35,9 @@
 		FC3B59F72053B8DF00EFF2C2 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FC3B59F92053B8FB00EFF2C2 /* BookmarkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		FC3B59FB2053BBBD00EFF2C2 /* TweetModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetModel.swift; sourceTree = "<group>"; };
+		FC3B5A042053E7BC00EFF2C2 /* SingletonClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingletonClass.swift; sourceTree = "<group>"; };
+		FC3B5A062053E80500EFF2C2 /* TweetViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetViewCell.swift; sourceTree = "<group>"; };
+		FC3B5A082053EFC400EFF2C2 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +45,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59B20218290A55E8D9B639FB /* Pods_PregAssignment.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		039F47193FD6BCE73013C4C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B9AE2C180D5442AF1C3C693F /* Pods_PregAssignment.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		20D9DF83FC550DD7134EF216 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6416211DBFE52D3C71B8F120 /* Pods-PregAssignment.debug.xcconfig */,
+				7D1094FEB90DA9BD11DE2242 /* Pods-PregAssignment.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FC3B59D32053B6BA00EFF2C2 = {
 			isa = PBXGroup;
 			children = (
 				FC3B59DE2053B6BA00EFF2C2 /* PregAssignment */,
 				FC3B59DD2053B6BA00EFF2C2 /* Products */,
+				20D9DF83FC550DD7134EF216 /* Pods */,
+				039F47193FD6BCE73013C4C3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				FC3B59DF2053B6BA00EFF2C2 /* AppDelegate.swift */,
+				FC3B59FF2053C9AE00EFF2C2 /* Helper */,
 				FC3B59F52053B89600EFF2C2 /* Model */,
 				FC3B59F62053B8AB00EFF2C2 /* View */,
 				FC3B59F42053B89600EFF2C2 /* Controllers */,
@@ -76,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				FC3B59F72053B8DF00EFF2C2 /* HomeViewController.swift */,
+				FC3B5A062053E80500EFF2C2 /* TweetViewCell.swift */,
 				FC3B59F92053B8FB00EFF2C2 /* BookmarkViewController.swift */,
 			);
 			path = Controllers;
@@ -97,6 +129,15 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		FC3B59FF2053C9AE00EFF2C2 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				FC3B5A042053E7BC00EFF2C2 /* SingletonClass.swift */,
+				FC3B5A082053EFC400EFF2C2 /* Extensions.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -104,9 +145,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC3B59F12053B6BA00EFF2C2 /* Build configuration list for PBXNativeTarget "PregAssignment" */;
 			buildPhases = (
+				0829D3A334955CF71C8531BA /* [CP] Check Pods Manifest.lock */,
 				FC3B59D82053B6BA00EFF2C2 /* Sources */,
 				FC3B59D92053B6BA00EFF2C2 /* Frameworks */,
 				FC3B59DA2053B6BA00EFF2C2 /* Resources */,
+				619C2780A8DDB2F4C3601B17 /* [CP] Embed Pods Frameworks */,
+				820B91253FFE74B62B46FFBA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -164,16 +208,73 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0829D3A334955CF71C8531BA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PregAssignment-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		619C2780A8DDB2F4C3601B17 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PregAssignment/Pods-PregAssignment-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		820B91253FFE74B62B46FFBA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PregAssignment/Pods-PregAssignment-resources.sh",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PregAssignment/Pods-PregAssignment-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FC3B59D82053B6BA00EFF2C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				FC3B59E82053B6BA00EFF2C2 /* PregAssignment.xcdatamodeld in Sources */,
+				FC3B5A052053E7BC00EFF2C2 /* SingletonClass.swift in Sources */,
 				FC3B59E02053B6BA00EFF2C2 /* AppDelegate.swift in Sources */,
+				FC3B5A092053EFC400EFF2C2 /* Extensions.swift in Sources */,
 				FC3B59FC2053BBBD00EFF2C2 /* TweetModel.swift in Sources */,
 				FC3B59F82053B8DF00EFF2C2 /* HomeViewController.swift in Sources */,
 				FC3B59FA2053B8FB00EFF2C2 /* BookmarkViewController.swift in Sources */,
+				FC3B5A072053E80500EFF2C2 /* TweetViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,9 +395,11 @@
 		};
 		FC3B59F22053B6BA00EFF2C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6416211DBFE52D3C71B8F120 /* Pods-PregAssignment.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = PregAssignment/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Freelancer.PregAssignment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -306,9 +409,11 @@
 		};
 		FC3B59F32053B6BA00EFF2C2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D1094FEB90DA9BD11DE2242 /* Pods-PregAssignment.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = PregAssignment/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Freelancer.PregAssignment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -335,6 +440,7 @@
 				FC3B59F32053B6BA00EFF2C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

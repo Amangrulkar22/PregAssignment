@@ -8,13 +8,15 @@
 
 import Foundation
 
+/// Twitter model
 struct TweetModel {
     
-    var id: String = ""
+    var id: Int = 0
     var title: String = ""
-    var discription: String = ""
-    var prifilePic: String = ""
-    var banner: String = ""
+    var description: String = ""
+    var screenName: String = ""
+    var profilePicUrl: String = ""
+    var bannerUrl: String = ""
     var favCount: Int = 0
     var retweetCount: Int = 0
 }
