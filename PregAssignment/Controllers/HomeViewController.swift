@@ -8,12 +8,13 @@
 
 import UIKit
 import TwitterKit
+import SVProgressHUD
 
 class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     /// Tweet tableview object
     @IBOutlet weak var tableViewTweets: UITableView!
-
+    
     /// Array to store tweet data
     var arrayTweet : [TweetModel] = []
     
@@ -23,7 +24,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
+        
         //Api call for fetching twitter api
         twitterSearchApiCall(page: pageCount)
         
@@ -33,6 +34,8 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     ///
     /// - Parameter page: pagination count
     func twitterSearchApiCall(page: Int) {
+        
+        SVProgressHUD.show()
         
         let client = TWTRAPIClient()
         let statusesShowEndpoint = "https://api.twitter.com/1.1/users/search.json?q=pregnancy&page=\(page)"
@@ -45,58 +48,64 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print("Error: \(connectionError)")
             }
             
+            SVProgressHUD.dismiss()
+            
             do {
                 if SingletonClass.sharedInstance.isConnectedToNetwork()
                 {
-                    let json = try JSONSerialization.jsonObject(with: data!) as! [AnyObject]
-//                    print("json: \(json)")
-
-                    //Loop to store dictionary of data in array
-                    for dict in json
+                    if data != nil {
+                        let json = try JSONSerialization.jsonObject(with: data!) as! [AnyObject]
+                        
+//                        print("json: \(json)")
+                        
+                        //Loop to store dictionary of data in array
+                        for dict in json
+                        {
+                            var model = TweetModel()
+                            
+                            if let id = dict.value(forKey: "id") as? Int {
+                                model.id = id
+                            }
+                            
+                            if let title = dict.value(forKey: "name") as? String {
+                                model.title = title
+                            }
+                            
+                            if let description = dict.value(forKey: "description") as? String {
+                                model.description = description
+                            }
+                            
+                            if let screenName = dict.value(forKey: "screen_name") as? String {
+                                model.screenName = screenName
+                            }
+                            
+                            if let bannerUrl = dict.value(forKey: "profile_banner_url") as? String {
+                                model.bannerUrl = bannerUrl
+                            }
+                            
+                            if let profileUrl = dict.value(forKey: "profile_image_url") as? String {
+                                model.profilePicUrl = profileUrl
+                            }
+                            
+                            if let favCount = dict.value(forKey: "favourites_count") as? Int {
+                                model.favCount = favCount
+                            }
+                            
+                            if let retweetCount = dict.value(forKey: "status.retweet_count") as? Int {
+                                model.retweetCount = retweetCount
+                            }
+                            
+                            self.arrayTweet.append(model)
+                        }
+                        
+                        self.tableViewTweets.reloadData()
+                    }else
                     {
-                        var model = TweetModel()
-                        
-                        if let id = dict.value(forKey: "id") as? Int {
-                            model.id = id
-                        }
-                        
-                        if let title = dict.value(forKey: "name") as? String {
-                            model.title = title
-                        }
-                        
-                        if let description = dict.value(forKey: "description") as? String {
-                            model.description = description
-                        }
-                        
-                        if let screenName = dict.value(forKey: "screen_name") as? String {
-                            model.screenName = screenName
-                        }
-                        
-                        if let bannerUrl = dict.value(forKey: "profile_banner_url") as? String {
-                            model.bannerUrl = bannerUrl
-                        }
-                        
-                        if let profileUrl = dict.value(forKey: "profile_image_url") as? String {
-                            model.profilePicUrl = profileUrl
-                        }
-                        
-                        if let favCount = dict.value(forKey: "favourites_count") as? Int {
-                            model.favCount = favCount
-                        }
-
-                        if let retweetCount = dict.value(forKey: "status.retweet_count") as? Int {
-                            model.retweetCount = retweetCount
-                        }
-                        
-                        self.arrayTweet.append(model)
+                        print("No Internet connection available")
                     }
-                    
-                    self.tableViewTweets.reloadData()
-                }else
-                {
-                    print("No Internet connection available")
+                }else {
+                    print("Server error")
                 }
-                
             } catch let jsonError as NSError {
                 print("json error: \(jsonError.localizedDescription)")
             }
@@ -112,6 +121,14 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //MARK:- Tableview delegate and datasource methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,18 +162,14 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             pageCount+=1
             
             twitterSearchApiCall(page: pageCount)
+            
+            if pageCount > 4  && pageCount<5{
+                self.tableViewTweets.tableFooterView?.isHidden = true
+                self.tableViewTweets.tableFooterView = nil
+            }
+            
         }
         
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
 }
-

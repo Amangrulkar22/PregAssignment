@@ -7,6 +7,6 @@ target 'PregAssignment' do
 
   # Pods for PregAssignment
   pod 'TwitterKit'
-
+  pod 'SVProgressHUD'
 
 end

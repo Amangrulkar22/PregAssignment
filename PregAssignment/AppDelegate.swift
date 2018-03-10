@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         /// Set consumer key and consumer secret key of twitter
-        Twitter.sharedInstance().start(withConsumerKey: "QgQMW8KNN17wh6sRkM4wycUqF", consumerSecret: "31fGSJyNEhYQ318MNmO0fFO5G600L7si92FXLLKt1cVkUWlsG5")
+        Twitter.sharedInstance().start(withConsumerKey: "kXfHk1eQhpJHLpziQrpnaNSfT", consumerSecret: "hwZ49NjarEznNjtUIMcrHXUoQ9nHcFqg7LpYcP3KcJDLG2DHF3")
 
         return true
     }
