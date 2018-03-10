@@ -24,15 +24,21 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     /// Array to store tweet data
     var arrayTweet : [TweetModel] = []
     
+    /// Filter Array to store tweet data
+    var filterArrayTweet : [TweetModel] = []
+    
+    
     /// Store page count to fetch twitter data in pagination
     var pageCount: Int = 1
+    
+    var isFilterApply: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         self.initialLoad()
-
+        
         //Api call for fetching twitter api
         twitterSearchApiCall(page: pageCount)
         
@@ -70,7 +76,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let tempTweet = arrayTweet[indexCount]
         tempTweet.isBookmark = false
         tableViewTweets.reloadData()
-    
+        
     }
     
     /// API call for fetching twitter search data
@@ -134,7 +140,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                                 model.favCount = favCount
                             }
                             
-                            if let retweetCount = dict.value(forKey: "status.retweet_count") as? Int {
+                            if let retweetCount = dict.value(forKeyPath: "status.retweet_count") as? Int {
                                 model.retweetCnt = retweetCount
                             }
                             
@@ -144,7 +150,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         self.tableViewTweets.reloadData()
                     }else
                     {
-                         CustomAlertView.showNegativeAlert("Server Error")
+                        CustomAlertView.showNegativeAlert("Server Error")
                     }
                 }else {
                     CustomAlertView.showNegativeAlert("No Internet connection available")
@@ -170,26 +176,15 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         switch button.tag {
         case 0:
-            button.isSelected = !button.isSelected
-            if button.isSelected
-            {
-            }else
-            {
-                
-            }
+            mostLiketbtn.isSelected = !mostLiketbtn.isSelected
+            
         case 1:
-            button.isSelected = !button.isSelected
-            if button.isSelected
-            {
-                
-            }else
-            {
-                
-            }
+            mostRetweettbtn.isSelected = !mostRetweettbtn.isSelected
+            
         default: break
             
         }
-
+        
     }
     
     @IBAction func showFilterPopUp(_ sender: Any)
@@ -215,6 +210,42 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     /// - Parameter sender: Sender description
     @IBAction func actionForApplyFilter(_ sender: Any)
     {
+        if mostLiketbtn.isSelected && mostRetweettbtn.isSelected
+        {
+            //by favourite count
+            let sortedFavArray = arrayTweet.sorted { $0.favCount > $1.favCount }
+            
+            //by retweet count
+            let sortedArray = sortedFavArray.sorted { $0.retweetCnt > $1.retweetCnt }
+            
+            filterArrayTweet = sortedArray
+            
+            isFilterApply = true
+            
+        }else if mostLiketbtn.isSelected
+        {
+            //by favourite count
+            let sortedFavArray = arrayTweet.sorted { $0.favCount > $1.favCount }
+            
+            filterArrayTweet = sortedFavArray
+            
+            isFilterApply = true
+            
+        }else if mostRetweettbtn.isSelected
+        {
+            //by retweet count
+            let sortedArray = arrayTweet.sorted { $0.retweetCnt > $1.retweetCnt }
+            
+            filterArrayTweet = sortedArray
+            
+            isFilterApply = true
+            
+        }else {
+            isFilterApply = false
+        }
+        
+        self.tableViewTweets.reloadData()
+        
         self.initialLoad()
         UIView.animate(withDuration: 0.30) {
             self.view.layoutIfNeeded()
@@ -227,13 +258,13 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     /// - Parameter sender: sender description
     @IBAction func actionToCheckBookmark(_ sender: Any)
     {
-         let button = sender as! UIButton
-         button.isSelected = !button.isSelected
+        let button = sender as! UIButton
+        button.isSelected = !button.isSelected
         
         /// Check for selection
         if button.isSelected
         {
-            let model = arrayTweet[button.tag] 
+            let model = arrayTweet[button.tag]
             model.isBookmark = true
             
             var tempArray:[TweetModel] = UserDefault.getBookmarkList()
@@ -283,38 +314,71 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.arrayTweet.count
+        
+        if isFilterApply && filterArrayTweet.count > 0 {
+            return 10
+            
+        }else {
+            return self.arrayTweet.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetViewCell
         
-        cell.bookmarkBtn.tag = indexPath.row
-        
-        let backgroundImg = "\(self.arrayTweet[indexPath.row].bannerUrl)"
-        if backgroundImg == ""
+        if !isFilterApply
         {
-            cell.bgdImgView.image = #imageLiteral(resourceName: "placeholder")
+            cell.bookmarkBtn.tag = indexPath.row
+            
+            let backgroundImg = "\(self.arrayTweet[indexPath.row].bannerUrl)"
+            if backgroundImg == ""
+            {
+                cell.bgdImgView.image = #imageLiteral(resourceName: "placeholder")
+            }else {
+                cell.bgdImgView.setImageFromUrl(urlString: backgroundImg, withPlaceholder: #imageLiteral(resourceName: "placeholder"))
+            }
+            
+            let tweetLogoImg = "\(self.arrayTweet[indexPath.row].profilePicUrl)"
+            cell.logoImgView.setImageFromUrl(urlString: tweetLogoImg, withPlaceholder: #imageLiteral(resourceName: "placeholder"))
+            
+            cell.titleLblView.text = "\(self.arrayTweet[indexPath.row].title)"
+            cell.sceenNameLblView.text = "@\(self.arrayTweet[indexPath.row].screenName)"
+            cell.descLblView.text = "\(self.arrayTweet[indexPath.row].desc)"
+            cell.likeCountLblView.text = "\(self.arrayTweet[indexPath.row].favCount)"
+            cell.retweetCountLblView.text = "\(self.arrayTweet[indexPath.row].retweetCnt)"
+            
+            if self.arrayTweet[indexPath.row].isBookmark {
+                cell.bookmarkBtn.isSelected = true
+            }else{
+                cell.bookmarkBtn.isSelected = false
+            }
         }else {
-            cell.bgdImgView.setImageFromUrl(urlString: backgroundImg, withPlaceholder: #imageLiteral(resourceName: "placeholder"))
+            cell.bookmarkBtn.tag = indexPath.row
+            
+            let backgroundImg = "\(self.filterArrayTweet[indexPath.row].bannerUrl)"
+            if backgroundImg == ""
+            {
+                cell.bgdImgView.image = #imageLiteral(resourceName: "placeholder")
+            }else {
+                cell.bgdImgView.setImageFromUrl(urlString: backgroundImg, withPlaceholder: #imageLiteral(resourceName: "placeholder"))
+            }
+            
+            let tweetLogoImg = "\(self.filterArrayTweet[indexPath.row].profilePicUrl)"
+            cell.logoImgView.setImageFromUrl(urlString: tweetLogoImg, withPlaceholder: #imageLiteral(resourceName: "placeholder"))
+            
+            cell.titleLblView.text = "\(self.filterArrayTweet[indexPath.row].title)"
+            cell.sceenNameLblView.text = "@\(self.filterArrayTweet[indexPath.row].screenName)"
+            cell.descLblView.text = "\(self.filterArrayTweet[indexPath.row].desc)"
+            cell.likeCountLblView.text = "\(self.filterArrayTweet[indexPath.row].favCount)"
+            cell.retweetCountLblView.text = "\(self.filterArrayTweet[indexPath.row].retweetCnt)"
+            
+            if self.filterArrayTweet[indexPath.row].isBookmark {
+                cell.bookmarkBtn.isSelected = true
+            }else{
+                cell.bookmarkBtn.isSelected = false
+            }
         }
-        
-        let tweetLogoImg = "\(self.arrayTweet[indexPath.row].profilePicUrl)"
-        cell.logoImgView.setImageFromUrl(urlString: tweetLogoImg, withPlaceholder: #imageLiteral(resourceName: "placeholder"))
-        
-        cell.titleLblView.text = "\(self.arrayTweet[indexPath.row].title)"
-        cell.sceenNameLblView.text = "@\(self.arrayTweet[indexPath.row].screenName)"
-        cell.descLblView.text = "\(self.arrayTweet[indexPath.row].desc)"
-        cell.likeCountLblView.text = "\(self.arrayTweet[indexPath.row].favCount)"
-        cell.retweetCountLblView.text = "\(self.arrayTweet[indexPath.row].retweetCnt)"
-        
-        if self.arrayTweet[indexPath.row].isBookmark {
-            cell.bookmarkBtn.isSelected = true
-        }else{
-            cell.bookmarkBtn.isSelected = false
-        }
-        
         if (indexPath.row == (self.arrayTweet.count - 1) && pageCount<5)
         {
             // Last cell is visible

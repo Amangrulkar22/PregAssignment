@@ -91,5 +91,5 @@ class BookmarkViewController: UIViewController,UITableViewDelegate,UITableViewDa
         cell.bookmarkBtn.isSelected = true
         
         return cell
-    } 
+    }
 }
