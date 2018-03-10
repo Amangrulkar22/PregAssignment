@@ -15,6 +15,12 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     /// Tweet tableview object
     @IBOutlet weak var tableViewTweets: UITableView!
     
+    @IBOutlet weak var customFilterView: UIView!
+    @IBOutlet weak var mostLiketbtn: UIButton!
+    @IBOutlet weak var mostRetweettbtn: UIButton!
+    @IBOutlet weak var heightConstraintForview: NSLayoutConstraint!
+    @IBOutlet weak var widthConstraintForView: NSLayoutConstraint!
+    
     /// Array to store tweet data
     var arrayTweet : [TweetModel] = []
     
@@ -25,9 +31,46 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        self.initialLoad()
+
         //Api call for fetching twitter api
         twitterSearchApiCall(page: pageCount)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(removeObjectFromArray), name: NSNotification.Name(rawValue: "removeTweet"), object: nil)
+    }
+    
+    /// Initial load view
+    func initialLoad()
+    {
+        self.heightConstraintForview.constant = minConstantVal
+        self.widthConstraintForView.constant = minConstantVal
+        tableViewTweets.tableFooterView = UIView()
+    }
+    
+    /// Notification callback method to remove record from array
+    ///
+    /// - Parameter object: tweet id
+    func removeObjectFromArray(object:NSNotification) {
+        
+        guard let userInfo = object.userInfo,let id = userInfo["id"] as? Int else
+        {
+            //print("No userInfo found in notification")
+            return
+        }
+        
+        var indexCount = 0
+        for value:TweetModel in arrayTweet
+        {
+            if value.id == id {
+                break
+            }
+            indexCount+=1
+        }
+        
+        let tempTweet = arrayTweet[indexCount]
+        tempTweet.isBookmark = false
+        tableViewTweets.reloadData()
+    
     }
     
     /// API call for fetching twitter search data
@@ -61,7 +104,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         //Loop to store dictionary of data in array
                         for dict in json
                         {
-                            var model = TweetModel()
+                            let model = TweetModel(id: 0, title: "", desc: "", screenName: "", profilePicUrl: "", bannerUrl: "", favCount: 0, retweetCnt: 0, isBookmark: false)
                             
                             if let id = dict.value(forKey: "id") as? Int {
                                 model.id = id
@@ -72,7 +115,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             }
                             
                             if let description = dict.value(forKey: "description") as? String {
-                                model.description = description
+                                model.desc = description
                             }
                             
                             if let screenName = dict.value(forKey: "screen_name") as? String {
@@ -92,7 +135,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             }
                             
                             if let retweetCount = dict.value(forKey: "status.retweet_count") as? Int {
-                                model.retweetCount = retweetCount
+                                model.retweetCnt = retweetCount
                             }
                             
                             self.arrayTweet.append(model)
@@ -101,10 +144,10 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         self.tableViewTweets.reloadData()
                     }else
                     {
-                        print("No Internet connection available")
+                         CustomAlertView.showNegativeAlert("Server Error")
                     }
                 }else {
-                    print("Server error")
+                    CustomAlertView.showNegativeAlert("No Internet connection available")
                 }
             } catch let jsonError as NSError {
                 print("json error: \(jsonError.localizedDescription)")
@@ -116,6 +159,114 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /// Check uncheck filter
+    ///
+    /// - Parameter sender: sender description
+    @IBAction func selectFliterMenu(_ sender: Any)
+    {
+        let button = sender as! UIButton
+        
+        switch button.tag {
+        case 0:
+            button.isSelected = !button.isSelected
+            if button.isSelected
+            {
+            }else
+            {
+                
+            }
+        case 1:
+            button.isSelected = !button.isSelected
+            if button.isSelected
+            {
+                
+            }else
+            {
+                
+            }
+        default: break
+            
+        }
+
+    }
+    
+    @IBAction func showFilterPopUp(_ sender: Any)
+    {
+        if self.heightConstraintForview.constant == 0
+        {
+            self.heightConstraintForview.constant = maxConstantVal
+            self.widthConstraintForView.constant = maxConstantVal
+            UIView.animate(withDuration: 0.30) {
+                self.view.layoutIfNeeded()
+            }
+        }else
+        {
+            self.initialLoad()
+            UIView.animate(withDuration: 0.30) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    /// Filter apply button action
+    ///
+    /// - Parameter sender: Sender description
+    @IBAction func actionForApplyFilter(_ sender: Any)
+    {
+        self.initialLoad()
+        UIView.animate(withDuration: 0.30) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    /// Action bookmart method
+    ///
+    /// - Parameter sender: sender description
+    @IBAction func actionToCheckBookmark(_ sender: Any)
+    {
+         let button = sender as! UIButton
+         button.isSelected = !button.isSelected
+        
+        /// Check for selection
+        if button.isSelected
+        {
+            let model = arrayTweet[button.tag] 
+            model.isBookmark = true
+            
+            var tempArray:[TweetModel] = UserDefault.getBookmarkList()
+            tempArray.append(model)
+            
+            UserDefault.setBookmarkList(tempArray)
+            
+            CustomAlertView.showPositiveAlert("Bookmark added")
+            
+        }else
+        {
+            var tweetList: [TweetModel] = UserDefault.getBookmarkList()
+            
+            var index = 0
+            if tweetList.count > 0
+            {
+                let outer: TweetModel = arrayTweet[button.tag]
+                outer.isBookmark = false
+                
+                for inner:TweetModel in UserDefault.getBookmarkList()
+                {
+                    if outer.id == inner.id
+                    {
+                        break;
+                    }
+                    index+=1
+                }
+                
+                
+                tweetList.remove(at: index)
+                UserDefault.setBookmarkList(tweetList)
+            }
+        }
     }
     
     //MARK:- Tableview delegate and datasource methods
@@ -139,6 +290,8 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetViewCell
         
+        cell.bookmarkBtn.tag = indexPath.row
+        
         let backgroundImg = "\(self.arrayTweet[indexPath.row].bannerUrl)"
         if backgroundImg == ""
         {
@@ -152,9 +305,15 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         cell.titleLblView.text = "\(self.arrayTweet[indexPath.row].title)"
         cell.sceenNameLblView.text = "@\(self.arrayTweet[indexPath.row].screenName)"
-        cell.descLblView.text = "\(self.arrayTweet[indexPath.row].description)"
+        cell.descLblView.text = "\(self.arrayTweet[indexPath.row].desc)"
         cell.likeCountLblView.text = "\(self.arrayTweet[indexPath.row].favCount)"
-        cell.retweetCountLblView.text = "\(self.arrayTweet[indexPath.row].retweetCount)"
+        cell.retweetCountLblView.text = "\(self.arrayTweet[indexPath.row].retweetCnt)"
+        
+        if self.arrayTweet[indexPath.row].isBookmark {
+            cell.bookmarkBtn.isSelected = true
+        }else{
+            cell.bookmarkBtn.isSelected = false
+        }
         
         if (indexPath.row == (self.arrayTweet.count - 1) && pageCount<5)
         {

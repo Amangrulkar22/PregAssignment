@@ -17,6 +17,7 @@ class TweetViewCell: UITableViewCell
     @IBOutlet weak var descLblView: UILabel!
     @IBOutlet weak var likeCountLblView: UILabel!
     @IBOutlet weak var retweetCountLblView: UILabel!
+    @IBOutlet weak var bookmarkBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
