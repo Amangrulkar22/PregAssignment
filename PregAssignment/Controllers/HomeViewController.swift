@@ -64,6 +64,7 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             return
         }
         
+        /// Update bookmart item from main array
         var indexCount = 0
         for value:TweetModel in arrayTweet
         {
@@ -261,10 +262,16 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let button = sender as! UIButton
         button.isSelected = !button.isSelected
         
+        var model:TweetModel!
+
         /// Check for selection
         if button.isSelected
         {
-            let model = arrayTweet[button.tag]
+            if !isFilterApply {
+                model = arrayTweet[button.tag]
+            }else {
+                model = filterArrayTweet[button.tag]
+            }
             model.isBookmark = true
             
             var tempArray:[TweetModel] = UserDefault.getBookmarkList()
@@ -281,7 +288,13 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             var index = 0
             if tweetList.count > 0
             {
-                let outer: TweetModel = arrayTweet[button.tag]
+                var outer: TweetModel!
+                
+                if !isFilterApply {
+                    outer = arrayTweet[button.tag]
+                }else {
+                    outer = filterArrayTweet[button.tag]
+                }
                 outer.isBookmark = false
                 
                 for inner:TweetModel in UserDefault.getBookmarkList()
@@ -292,7 +305,6 @@ class HomeViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     }
                     index+=1
                 }
-                
                 
                 tweetList.remove(at: index)
                 UserDefault.setBookmarkList(tweetList)

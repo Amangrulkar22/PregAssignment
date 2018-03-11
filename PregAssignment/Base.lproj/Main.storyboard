@@ -245,17 +245,17 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KWD-2o-5Hr">
                                                             <rect key="frame" x="132" y="160" width="217" height="100"/>
                                                             <subviews>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vb6-dc-7P9">
+                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vb6-dc-7P9">
                                                                     <rect key="frame" x="0.0" y="0.0" width="217" height="40"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qxt-zU-RyC">
-                                                                            <rect key="frame" x="0.0" y="10" width="182" height="20"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label label label label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qxt-zU-RyC">
+                                                                            <rect key="frame" x="0.0" y="10" width="185.5" height="20"/>
                                                                             <fontDescription key="fontDescription" name="Palatino-Bold" family="Palatino" pointSize="18"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gpP-hz-JtA">
-                                                                            <rect key="frame" x="192" y="4" width="25" height="32"/>
+                                                                            <rect key="frame" x="190.5" y="4" width="26.5" height="32"/>
                                                                             <state key="normal" image="Bookmark"/>
                                                                             <state key="selected" image="BookMarkSaved"/>
                                                                             <connections>
